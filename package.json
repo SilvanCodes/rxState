@@ -1,0 +1,58 @@
+{
+  "name": "rxjstate",
+  "version": "0.0.1",
+  "description": "Simple, functional, reactive state with rxjs.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "start": "npm run prod",
+    "build": "babel src -d dist --extensions \".ts,.js\" --ignore '**/*.test.*' --ignore '**/__test__/**/*'",
+    "prod": "node dist/index.js",
+    "dev": "babel-node index.ts --extensions \".ts,.js\"",
+    "dev:cli": "babel-node src/cli.ts --extensions \".ts,.js\"",
+    "watch": "nodemon --ext js,graphql --watch src --exec npm run dev",
+    "watch:docker": "npm run watch -- --legacy-watch",
+    "test": "npm run lint && npm run type-check && npm run build",
+    "lint": "eslint --config .eslintrc.yml --ext ts,js src",
+    "lint:fix": "npm run lint -- --fix",
+    "build:types": "tsc --emitDeclarationOnly",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "npm run type-check -- --watch",
+    "clean:cache": "rm -rf ./node_modules/.cache/@babel",
+    "deploy": "np --no-release-draft --no-publish",
+    "do": "npm run type-check && npm run dev"
+  },
+  "repository": "github:silvancodes/rxjstate",
+  "keywords": ["rxjs", "state", "simple"],
+  "author": "Silvan Buedebender",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/silvancodes/rxjstate/issues"
+  },
+  "files": [
+    "dist/"
+  ],
+  "homepage": "https://github.com/silvancodes/rxjstate#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.6.4",
+    "@babel/core": "^7.6.4",
+    "@babel/node": "^7.6.3",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-typescript": "^7.6.0",
+    "@types/node": "^12.7.12",
+    "@typescript-eslint/eslint-plugin": "^2.3.3",
+    "@typescript-eslint/parser": "^2.3.3",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.5.1",
+    "nodemon": "^1.19.3",
+    "np": "^5.1.1",
+    "typescript": "^3.6.4"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.6.3",
+    "rxjs": "^6.5.3",
+  }
+}
