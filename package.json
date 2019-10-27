@@ -23,7 +23,11 @@
     "do": "npm run type-check && npm run dev"
   },
   "repository": "github:silvancodes/rxjstate",
-  "keywords": ["rxjs", "state", "simple"],
+  "keywords": [
+    "rxjs",
+    "state",
+    "simple"
+  ],
   "author": "Silvan Buedebender",
   "license": "MIT",
   "bugs": {

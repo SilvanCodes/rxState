@@ -42,48 +42,48 @@ import { scan, shareReplay, pluck, distinctUntilChanged, filter } from 'rxjs/ope
  * @param nullUndef : allow emmission on null or undefined values, default false
  */
 function setupState<T>(initialState: T) {
-    type UpdateFunction = (recentState: T) => Partial<T>;
-    type StateUpdate = Partial<T> | UpdateFunction;
-    type StateValue = T[keyof T] | T;
+	type UpdateFunction = (recentState: T) => Partial<T>;
+	type StateUpdate = Partial<T> | UpdateFunction;
+	type StateValue = T[keyof T] | T;
 
-    function isFunction(update: StateUpdate): update is UpdateFunction {
-        return Boolean((update as Function).apply)
-    }
-    
-    // source of state changes
-    const stateUpdate$ = new Subject<StateUpdate>();
+	function isFunction(update: StateUpdate): update is UpdateFunction {
+		return Boolean((update as Function).apply);
+	}
 
-    // interface for state mutation
-    function setState(update: StateUpdate): void {
-        stateUpdate$.next(update);
-    }
+	// source of state changes
+	const stateUpdate$ = new Subject<StateUpdate>();
 
-    const state$: Observable<T> = stateUpdate$.pipe(
-        // update
-        scan(
-            (state: T, update: StateUpdate) => ({
-                ...state,
-                ...(isFunction(update) ? update(state) : update)
-            }),
-            initialState
-        ),
-        // cache
-        shareReplay(1)
-    );
+	// interface for state mutation
+	function setState(update: StateUpdate): void {
+		stateUpdate$.next(update);
+	}
 
-    // interface for state retrival
-    function getState<R extends StateValue = T>(...path: Array<string>): Observable<R> {
-        return Boolean(path.length)
-            ? state$.pipe(
-                pluck<T, R>(...path),
-                distinctUntilChanged(),
-                filter<R>((value: R) => value !== null && value !== undefined),
-                shareReplay(1)
-            )
-            : state$ as Observable<R>;
-    }
+	const state$: Observable<T> = stateUpdate$.pipe(
+		// update
+		scan(
+			(state: T, update: StateUpdate) => ({
+				...state,
+				...(isFunction(update) ? update(state) : update)
+			}),
+			initialState
+		),
+		// cache
+		shareReplay(1)
+	);
 
-    return { setState, getState }
+	// interface for state retrival
+	function getState<R extends StateValue = T>(...path: Array<string>): Observable<R> {
+		return path.length
+			? state$.pipe(
+				pluck<T, R>(...path),
+				distinctUntilChanged(),
+				filter<R>((value: R) => value !== null && value !== undefined),
+				shareReplay(1)
+			)
+			: state$ as Observable<R>;
+	}
+
+	return { setState, getState };
 }
 
 
