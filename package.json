@@ -1,6 +1,6 @@
 {
   "name": "rxjstate",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Simple, functional, reactive state with rxjs.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
