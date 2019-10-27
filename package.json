@@ -53,6 +53,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.6.3",
-    "rxjs": "^6.5.3",
+    "rxjs": "^6.5.3"
   }
 }
